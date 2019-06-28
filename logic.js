@@ -36,11 +36,22 @@ d3.json(geo_data, function (geoJson) {
 
 
 function getColor(magnitude) {
-    return magnitude > 7.5  ? '#FF0000' :
-    magnitude > 6.5   ? '#FF8000' :
-    magnitude > 5.5   ? '#FFFF00' :
-    magnitude > 4.5   ? '#00FF00' :
-                        '#0B610B';
+    if (magnitude > 7) {
+        return '#FF0000'
+    }
+    else if (magnitude>6){
+        return '#FF8000'
+    }
+    else if (magnitude>5.5){
+        return'#F7FE2E'
+    }
+    else if (magnitude>5){
+        return '#BFFF00'
+    }
+    else if (magnitude> 4.5){
+        return '#00FF00'
+    }
+    else {return '#0B610B'}
 }
 
 function createMap() {
@@ -66,16 +77,21 @@ function createMap() {
     legend.onAdd = function (map) {
 
         var div = L.DomUtil.create('div', 'info legend'),
-            magnitude = [4.5, 5.5, 6.5, 7.5],
+            magnitude = [0, 4.5, 5, 5.5, 6, 7]
             labels = [];
 
         div.innerHTML += "<h4 style='margin:4px'>Magnitude</h4>"
 
+        // for (var i = 0; i < magnitude.length; i++) {
+        //     div.innerHTML +=
+        //         '<i style="background:' + getColor(magnitude[i]) + '"></i> ' 
+        //         + magnitude[i] + (magnitude[i + 1] ? '&ndash;' + magnitude[i + 1] + '<br>' : '+');
+        // }
         for (var i = 0; i < magnitude.length; i++) {
             div.innerHTML +=
-                '<i style="background:' + getColor(magnitude[i]) + '"></i> ' + 
-                + magnitude[i] + (magnitude[i + 1] ? '&ndash;' + magnitude[i + 1] + '<br>' : '+');
-        }
+                '<i style="background:' + getColor(magnitude[i]+.1) + '"></i> ' +
+                + magnitude[i] + (magnitude[i+1] ? '&ndash;' + magnitude[i+1] + '<br>' : '+');
+            }
 
         return div;
     };
